@@ -243,12 +243,15 @@ class HBNBCommand(cmd.Cmd):
                 return
             for k, v in storage.all().items():
                 if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                    item = f"[[{args}] ({v.id}) {v.to_dict()}]"
+                    print_list.append(item)
         else:
             for k, v in storage.all().items():
-                print_list.append(str(v))
+                item = f"[[{v.__class__.__name__}] ({v.id}) {v.to_dict()}]"
+                print_list.append(item)
 
-        print(print_list)
+        for item in print_list:
+            print(item)
 
     def help_all(self):
         """ Help information for the all command """

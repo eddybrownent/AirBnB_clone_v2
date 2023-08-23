@@ -28,9 +28,9 @@ class BaseModel:
                         nullable=False,
                         default=datetime.utcnow())
 
-    update_at = Column(DateTime,
-                       nullable=False,
-                       default=datetime.utcnow())
+    updated_at = Column(DateTime,
+                        nullable=False,
+                        default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
@@ -59,12 +59,14 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
+        """Converts object attributes to dictionary format"""
         dictionary = self.__dict__.copy()
-        dictionary["__class__"] = str(type(self).__name__)
-        dictionary["created_at"] = self.created_at.isoformat()
-        dictionary["updated_at"] = self.updated_at.isoformat()
-        dictionary.pop('_sa_instance_state', None)
+        if '_sa_instance_state' in dictionary:
+            del dictionary['_sa_instance_state']
+        if 'created_at' in dictionary:
+            dictionary['created_at'] = self.created_at
+        if 'updated_at' in dictionary:
+            dictionary['updated_at'] = self.updated_at
         return dictionary
 
     def delete(self):
