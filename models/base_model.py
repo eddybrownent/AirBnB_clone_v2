@@ -60,14 +60,18 @@ class BaseModel:
 
     def to_dict(self):
         """Converts object attributes to dictionary format"""
-        dictionary = self.__dict__.copy()
-        if '_sa_instance_state' in dictionary:
-            del dictionary['_sa_instance_state']
-        if 'created_at' in dictionary:
-            dictionary['created_at'] = self.created_at
-        if 'updated_at' in dictionary:
-            dictionary['updated_at'] = self.updated_at
-        return dictionary
+        my_dict = dict(self.__dict__)
+        my_dict["__class__"] = self.__class__.__name__
+        my_dict["created_at"] = self.created_at.isoformat()
+        my_dict["updated_at"] = self.updated_at.isoformat()
+        if "_sa_instance_state" in my_dict.keys():
+            del my_dict["_sa_instance_state"]
+        return my_dict
+
+    def __repr__(self):
+        """return a string representaion
+        """
+        return self.__str__()
 
     def delete(self):
         """"delete the current instance from the storage (models.storage)"""
