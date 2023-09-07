@@ -30,7 +30,8 @@ def do_deploy(archive_path):
                 archive_name.split('.')[0])
 
         run("mkdir -p {}".format(extract_file))
-        run("tar -xzf /tmp/{} -C {}".format(archive_name, extract_file))
+        run("tar -xzf /tmp/{} -C {}".format(
+            archive_name + '.tgz', extract_file))
 
         """
         Deleting the archive from the server
