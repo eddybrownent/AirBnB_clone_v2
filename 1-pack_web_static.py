@@ -3,7 +3,8 @@
 THis Fabric script generates a .tgz archive from the contents of a file
 """
 from fabric.api import local
-from fatetime import datetime
+from datetime import datetime
+from fabric.context_managers import lcd
 
 
 def do_pack():
@@ -21,9 +22,9 @@ def do_pack():
         archive_name = "web_static_{}.tgz".format(time)
 
         # navigating to web_static dir using local context
-        with lcd(web_static):
+        with lcd('web_static'):
             # creating the .tgz
-            local("tar -cvzf ../versions/{} .",.format(archive_name))
+            local("tar -cvzf ../versions/{} .".format(archive_name))
 
         # Check if archive was created successfully and return the path
         archive_path = "versions/{}".format(archive_name)
