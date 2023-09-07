@@ -7,7 +7,7 @@ import os
 
 
 env.hosts = ['54.197.21.126', '54.236.56.228']
-
+env.user = "ubuntu"
 
 def do_deploy(archive_path):
     """
@@ -39,7 +39,7 @@ def do_deploy(archive_path):
         run("rm /tmp/{}".format(archive_name))
 
         """
-        Removin the current symbolic link
+        Removing the current symbolic link
         """
         c_link = "/data/web_static/current"
         run("rm -rf {}".format(c_link))
