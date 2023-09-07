@@ -42,12 +42,14 @@ def do_deploy(archive_path):
         Removin the current symbolic link
         """
         c_link = "/data/web_static/current"
-        run("rm -f {}".format(c_link))
+        run("rm -rf {}".format(c_link))
 
         """
         Creating new symbolic link pointing to the new page
         """
         run("ln -s {} {}".format(extract_file, c_link))
+
+        print("New version deployed!")
 
         return True
     except Exception:
