@@ -9,6 +9,7 @@ import os
 env.hosts = ['54.197.21.126', '54.236.56.228']
 env.user = "ubuntu"
 
+
 def do_deploy(archive_path):
     """
     distributes an archive to webservers
@@ -26,17 +27,27 @@ def do_deploy(archive_path):
         extracting the archive to /data/web_static/releases/ directory
         """
         archive_name = os.path.basename(archive_path)
-        extract_file = "/data/web_static/releases/{}".format(
-                archive_name.split('.')[0])
+        folder = archive_name.split('.')[0]
+        extract_path = "/data/web_static/releases/{}".format(folder)
 
-        run("mkdir -p {}".format(extract_file))
+        run("mkdir -p {}".format(extract_path))
         run("tar -xzf /tmp/{} -C {}".format(
-            archive_name, extract_file))
+            archive_name, extract_path))
 
         """
         Deleting the archive from the server
         """
         run("rm /tmp/{}".format(archive_name))
+
+        """
+        Move extracts to new folder
+        """
+        run("mv {}/web_static/* {}/".format(extract_path, extract_path))
+
+        """
+        Remove extracted folder from remote server
+        """
+        run("rm -rf {}/web_static".format(extract_path))
 
         """
         Removing the current symbolic link
@@ -47,7 +58,7 @@ def do_deploy(archive_path):
         """
         Creating new symbolic link pointing to the new page
         """
-        run("ln -s {} {}".format(extract_file, c_link))
+        run("ln -s {} {}".format(extract_path, c_link))
 
         print("New version deployed!")
 
