@@ -1,7 +1,6 @@
 # web_server_setup.pp
 
-class web_server_setup {
-
+  web_server_setup {
   # Install nginx package if not installed
   package { 'nginx':
     ensure => installed,
@@ -9,17 +8,17 @@ class web_server_setup {
 
   # Create directories if they don't exist
   file { '/data/web_static/releases/test/':
-    ensure => directory,
-    owner  => 'ubuntu',
-    group  => 'ubuntu',
-    mode   => '0755',
+  ensure => directory,
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
+  mode   => '0755',
   }
 
   file { '/data/web_static/shared/':
-    ensure => directory,
-    owner  => 'ubuntu',
-    group  => 'ubuntu',
-    mode   => '0755',
+  ensure => directory,
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
+  mode   => '0755',
   }
 
   # Create an HTML file
@@ -33,10 +32,10 @@ class web_server_setup {
 
   # Create or recreate a symbolic link
   file { '/data/web_static/current':
-    ensure  => link,
-    target  => '/data/web_static/releases/test/',
-    owner   => 'ubuntu',
-    group   => 'ubuntu',
+  ensure => link,
+  target => '/data/web_static/releases/test/',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
   }
 
   # Update nginx configuration
