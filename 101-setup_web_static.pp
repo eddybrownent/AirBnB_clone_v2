@@ -13,11 +13,10 @@ file { '/data':
 }
 
 # Ensure /data/web_static directory structure exists
-file { ['/data/web_static', '/data/web_static/releases', '/data/web_static/shared']:
-  ensure  => 'directory',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
-  mode    => '0755',
+exec { 'create_web_static_dirs':
+  command => 'sudo mkdir -p /data/web_static/releases/test/ /data/web_static/shared/',
+  creates => ['/data/web_static/releases/test/', '/data/web_static/shared/'],
+  path    => ['/bin', '/usr/bin'],
   require => File['/data'],
 }
 
@@ -28,15 +27,14 @@ file { '/data/web_static/releases/test/index.html':
   group   => 'ubuntu',
   mode    => '0644',
   content => "<!DOCTYPE html>\n<html>\n<head>\n</head>\n<body>\nThis is a test Holberton School\n</body>\n</html>\n",
-  require => File['/data/web_static/releases/test'],
+  require => Exec['create_web_static_dirs'],
 }
 
 # Create or recreate a symbolic link
-file { '/data/web_static/current':
-  ensure  => 'link',
-  target  => '/data/web_static/releases/test/',
-  owner   => 'ubuntu',
-  group   => 'ubuntu',
+exec { 'create_web_static_link':
+  command => 'sudo ln -sf /data/web_static/releases/test/ /data/web_static/current',
+  creates => '/data/web_static/current',
+  path    => ['/bin', '/usr/bin'],
   require => File['/data/web_static/releases/test/index.html'],
 }
 
