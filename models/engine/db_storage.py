@@ -10,6 +10,9 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.state import State
 from models.city import City
 from models.user import User
+from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
 
 
 class DBStorage:
@@ -54,22 +57,19 @@ class DBStorage:
         """
 
         query_obj = {}
-
+        all_classes = [State, City, User, Place, Review, Amenity]
         if cls is None:
-            all_classes = [State, City, User]
             for cls in all_classes:
-                objs = self.__session.query(cls).all()
+                objs = self.__session.query(cls)
                 for obj in objs:
                     key = "{}.{}".format(cls.__name__, obj.id)
                     query_obj[key] = obj
-            else:
-                if isinstance(cls, str):
-                    cls = all_classes.get(cls, None)
-                    if cls:
-                        objs = self.__session.query(cls).all()
-                        for obj in objs:
-                            key = "{}.{}".format(cls.__name__, obj.id)
-                            query_obj[key] = obj
+        else:
+            for cls in all_classes:
+                objs = self.__session.query(cls)
+                for obj in objs:
+                    key = "{}.{}".format(cls.__name__, obj.id)
+                    query_obj[key] = obj
         return query_obj
 
     def new(self, obj):
@@ -106,3 +106,8 @@ class DBStorage:
 
         # Initializing the session
         self.__session = Session()
+
+    def close(self):
+        """ calls remove()
+        """
+        self.__session.close()

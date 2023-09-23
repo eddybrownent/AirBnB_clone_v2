@@ -236,7 +236,7 @@ class HBNBCommand(cmd.Cmd):
         """Shows all objects, or all objects of a class"""
         objects = storage.all()
         my_list = []
-        
+
         if not line:
             for key in objects:
                 my_list.append(objects[key])
