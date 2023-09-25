@@ -24,11 +24,7 @@ def cities_by_states():
     """
     Displays an HTML page with states and cities
     """
-    state_list = []
-    state_dict = storage.all(State)
-
-    for state in state_dict.values():
-        state_list.append(state)
+    state_list = storage.all(State).values()
     return render_template('8-cities_by_states.html', state_list=state_list)
 
 
