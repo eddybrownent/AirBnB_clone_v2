@@ -1,15 +1,16 @@
 #!/usr/bin/python3
-"""Starts a Flask web application.
-
+"""
+Starts a Flask web application.
 The application listens on 0.0.0.0, port 5000.
 Routes:
-    /states_list: HTML page with a list of all State objects in DBStorage.
+    /states_list: HTML page with a list of all State objects in DBStorage
 """
 from models import storage
 from flask import Flask
 from flask import render_template
 from models.state import State
 
+""" Creating a Flask web application instance """
 app = Flask(__name__)
 
 
@@ -31,4 +32,5 @@ def teardown(exc):
 
 
 if __name__ == "__main__":
+    """ Runs the Flask app """
     app.run(host="0.0.0.0")
