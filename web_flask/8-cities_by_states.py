@@ -38,7 +38,7 @@ def cities_by_states():
             """ Add the state as the key and its cities """
             state_cities_dict[state] = state.cities
 
-    return render_template("8-cities_by_states.htLml",
+    return render_template("8-cities_by_states.html",
                            state_cities_dict=state_cities_dict)
 
 
