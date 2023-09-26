@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 """
 This module starts Flask web application displays list of states and cities
 
