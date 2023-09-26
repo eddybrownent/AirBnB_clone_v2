@@ -6,6 +6,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
 from sqlalchemy.orm import relationship
+from os import getenv
 
 
 class City(BaseModel, Base):
@@ -18,7 +19,15 @@ class City(BaseModel, Base):
         name (sqlalchemy String): The name of the City.
         state_id (sqlalchemy String): The state id of the City.
     """
-    __tablename__ = "cities"
-    name = Column(String(128), nullable=False)
-    state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
-    places = relationship("Place", backref="cities", cascade="delete")
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = "cities"
+        name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey("states.id"), nullable=False)
+        places = relationship("Place", backref="cities", cascade="delete")
+    else:
+        name = ""
+        state_id = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes city"""
+        super().__init__(*args, **kwargs)

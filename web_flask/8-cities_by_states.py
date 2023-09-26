@@ -6,8 +6,6 @@ listening on 0.0.0.0, port 5000
 
 from flask import Flask, render_template
 from models import storage
-from models.state import State
-from models.city import City
 
 
 app = Flask(__name__)
@@ -26,11 +24,18 @@ def cities_by_states():
     """
     Displays an HTML page with states and cities
     """
-    state_list = storage.all(State).values()
+    from models.state import State
+    from models.city import City
 
-    for state in state_list:
-        return render_template('8-cities_by_states.html',
-                               state_list=state_list)
+    # Retrieve a list of states from your database
+    states = storage.all("State").values()
+    state_cities_dict = {}
+    for state in states:
+        if hasattr(state, 'cities'):
+            state_cities_dict[state] = state.cities
+
+    return render_template("8-cities_by_states.html",
+                           state_cities_dict=state_cities_dict)
 
 
 if __name__ == '__main__':

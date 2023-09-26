@@ -4,17 +4,25 @@ from models.base_model import BaseModel, Base
 from os import getenv
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models.city import City
 
 
 class State(BaseModel, Base):
     """ State class """
 
-    __tablename__ = "states"
     if getenv('HBNB_TYPE_STORAGE') == 'db':
+        __tablename__ = 'states'
+        # id = Column(String(60), primary_key=True, nullable=False)
         name = Column(String(128), nullable=False)
-        cities = relationship('City', cascade='all, delete-orphan', backref='state')
+        cities = relationship('City', backref='state', cascade='all, delete-orphan',  foreign_keys='City.state_id')
     else:
+        name = ""
+
+    def __init__(self, *args, **kwargs):
+        """initializes state"""
+        super().__init__(*args, **kwargs)
+
+
+    if getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
         def cities(self):
             """Get a list of all related City objects."""
