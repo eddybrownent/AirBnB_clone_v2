@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 """
-This script starts a Flask wed app
-listening on 0.0.0.0, port 5000
 """
 
 from flask import Flask, render_template
