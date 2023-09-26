@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """
-Starts a Flask web application.
+This module starts Flask web application displays list of states and cities
 
 The application listens on 0.0.0.0, port 5000.
 Routes:
-    /cities_by_states: HTML page with a list of all State and 
-    cities in  DBStorage
+   /cities_by_states: HTML page with a list of all State and
+   cities in DBStorage
 """
 
 from flask import Flask
