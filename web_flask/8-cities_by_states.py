@@ -14,6 +14,7 @@ from models import storage
 from models.state import State
 
 
+""" Creating a Flask web application instance """
 app = Flask(__name__)
 
 
@@ -48,4 +49,5 @@ def teardown(exc):
 
 
 if __name__ == '__main__':
+    """ Runs the Flask app """
     app.run(host="0.0.0.0", port="5000")
