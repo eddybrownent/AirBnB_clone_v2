@@ -9,9 +9,8 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """ State class """
 
+    __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
-        __tablename__ = 'states'
-        # id = Column(String(60), primary_key=True, nullable=False)
         name = Column(String(128), nullable=False)
         cities = relationship('City', backref='state', cascade='all, delete-orphan',  foreign_keys='City.state_id')
     else:
@@ -27,6 +26,8 @@ class State(BaseModel, Base):
         def cities(self):
             """Get a list of all related City objects."""
             from models import storage
+            from models.city import City
+
             city_list = []
             city_dict = storage.all(City)
             for city in city_dict.values():
