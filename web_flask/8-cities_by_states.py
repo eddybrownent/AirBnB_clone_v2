@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-""" This script that starts a Flask web application"""
+"""Starts a Flask web application.
+
+The application listens on 0.0.0.0, port 5000.
+Routes:
+    /cities_by_states: HTML page with a list of all State and 
+    cities in  DBStorage
+"""
 
 from flask import Flask, render_template
 from models import storage
@@ -21,6 +27,7 @@ def close(self):
 def cities_by_states():
     """
     Displays an HTML page with states and cities
+    cities are sorted by name
     """
 
     """ Retrieve a list of states from your database """
