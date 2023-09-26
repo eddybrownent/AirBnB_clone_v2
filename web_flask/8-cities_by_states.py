@@ -24,14 +24,20 @@ def cities_by_states():
     """
     Displays an HTML page with states and cities
     """
-    from models.state import State
     from models.city import City
+    from models.state import State
 
-    # Retrieve a list of states from your database
+    """ Retrieve a list of states from your database """
     states = storage.all("State").values()
+
+    """ Create a dict to store states and their cities """
     state_cities_dict = {}
+
+    """ Iterate through each state """
     for state in states:
+        """ Check if the state has 'cities' attribute """
         if hasattr(state, 'cities'):
+            """ Add the state as the key and its cities """
             state_cities_dict[state] = state.cities
 
     return render_template("8-cities_by_states.html",
