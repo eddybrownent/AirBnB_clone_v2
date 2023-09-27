@@ -3,6 +3,8 @@
 from models import storage
 from flask import Flask
 from flask import render_template
+from models.state import State
+from models.amenity import Amenity
 
 app = Flask(__name__)
 
@@ -10,10 +12,16 @@ app = Flask(__name__)
 @app.route("/hbnb_filters", strict_slashes=False)
 def hbnb_filters():
     """Displays the main HBnB filters HTML page."""
-    states = storage.all("State")
-    amenities = storage.all("Amenity")
+
+    state_cities_dict = {}
+    states = storage.all("State").values()
+    for state in states:
+        if hasattr(state, 'cities'):
+            state_cities_dict[state] = state.cities
+    amenities = storage.all("Amenity").values()
     return render_template("10-hbnb_filters.html",
-                           states=states, amenities=amenities)
+                           state_cities_dict=state_cities_dict,
+                           amenities=amenities)
 
 
 @app.teardown_appcontext
